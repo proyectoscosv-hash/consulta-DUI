@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Consulta Recompra CO </title>
+<title>Consulta Recompra CO</title>
 
 <style>
 body {
@@ -100,37 +100,49 @@ button {
 </div>
 
 <script>
+let baseDatos = null;
+
+// Cargar JSON una sola vez
+function cargarDatos() {
+  if (!baseDatos) {
+    return fetch('data.json')
+      .then(res => res.json())
+      .then(data => {
+        baseDatos = data;
+        return data;
+      });
+  }
+  return Promise.resolve(baseDatos);
+}
+
 function enviar() {
   let dui = document.getElementById("dui").value.trim();
   let mensajes = document.getElementById("mensajes");
 
   if (dui === "") return;
 
-  // Mostrar mensaje usuario
+  // Mostrar lo que escribe el usuario
   mensajes.innerHTML += '<div class="mensaje user">' + dui + '</div>';
 
-  // LIMPIAR DUI (solo números)
+  // Limpiar DUI (solo números)
   let duiLimpio = dui.replace(/[^0-9]/g, "");
 
-
   // Consultar JSON
-  fetch('data.json')
-    .then(res => res.json())
-    .then(data => {
+  cargarDatos().then(data => {
 
-      let encontrado = data.some(item => item.dui === duiLimpio);
+    let encontrado = data[duiLimpio];
 
-      if (encontrado) {
-        mensajes.innerHTML += '<div class="mensaje bot">✅ APLICA RECOMPRA (sujeto análisis)</div>';
-      } else {
-        mensajes.innerHTML += '<div class="mensaje bot">❌ No aparece como cliente VIP</div>';
-      }
+    if (encontrado) {
+      mensajes.innerHTML += '<div class="mensaje bot">✅ APLICA RECOMPRA (sujeto análisis)</div>';
+    } else {
+      mensajes.innerHTML += '<div class="mensaje bot">❌ No aparece como cliente VIP</div>';
+    }
 
-      mensajes.scrollTop = mensajes.scrollHeight;
-    })
-    .catch(() => {
-      mensajes.innerHTML += '<div class="mensaje bot">Error al consultar</div>';
-    });
+    mensajes.scrollTop = mensajes.scrollHeight;
+  })
+  .catch(() => {
+    mensajes.innerHTML += '<div class="mensaje bot">Error al consultar</div>';
+  });
 
   document.getElementById("dui").value = "";
 }
