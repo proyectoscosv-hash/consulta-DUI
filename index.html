@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Consulta DUI</title>
+<title>Consulta RECOMPRA</title>
 
 <style>
 body {
@@ -121,9 +121,9 @@ function enviar() {
       let encontrado = data.some(item => item.dui === duiLimpio);
 
       if (encontrado) {
-        mensajes.innerHTML += '<div class="mensaje bot">✅ PROCEDE</div>';
+        mensajes.innerHTML += '<div class="mensaje bot">✅ APLICA A RECOMPRA (sujeto análisis)</div>';
       } else {
-        mensajes.innerHTML += '<div class="mensaje bot">❌ NO PROCEDE</div>';
+        mensajes.innerHTML += '<div class="mensaje bot">❌ No aparece para recompra</div>';
       }
 
       mensajes.scrollTop = mensajes.scrollHeight;
