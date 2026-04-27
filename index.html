@@ -112,11 +112,8 @@ function enviar() {
   // LIMPIAR DUI (quita guiones y espacios)
   let duiLimpio = dui.replace(/-/g, "");
 
-  // VALIDACIÓN: solo números y longitud 9
-  if (!/^\d{8,9}$/.test(duiLimpio)) {
-    mensajes.innerHTML += '<div class="mensaje bot">⚠️ Formato inválido</div>';
-    return;
-  }
+   // SOLO limpiar DUI
+let duiLimpio = dui.replace(/[^0-9]/g, "");
 
   // mensaje de espera
   mensajes.innerHTML += '<div class="mensaje bot">⏳ Consultando...</div>';
