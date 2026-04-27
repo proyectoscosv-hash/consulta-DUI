@@ -93,7 +93,7 @@ button {
   </div>
 
   <div id="inputArea">
-    <input type="text" id="dui" placeholder="Ej: 01234567-8">
+    <input type="text" id="dui" placeholder="Ej: 04665680-7">
     <button onclick="enviar()">Enviar</button>
   </div>
 
@@ -106,19 +106,16 @@ function enviar() {
 
   if (dui === "") return;
 
-  // mostrar lo que escribe el usuario
+  // Mostrar mensaje usuario
   mensajes.innerHTML += '<div class="mensaje user">' + dui + '</div>';
 
-  // LIMPIAR DUI (quita guiones y espacios)
-  let duiLimpio = dui.replace(/-/g, "");
+  // LIMPIAR DUI (solo números)
+  let duiLimpio = dui.replace(/[^0-9]/g, "");
 
-   // SOLO limpiar DUI
-let duiLimpio = dui.replace(/[^0-9]/g, "");
-
-  // mensaje de espera
+  // Mensaje de carga
   mensajes.innerHTML += '<div class="mensaje bot">⏳ Consultando...</div>';
 
-  // CONSULTA JSON
+  // Consultar JSON
   fetch('data.json')
     .then(res => res.json())
     .then(data => {
