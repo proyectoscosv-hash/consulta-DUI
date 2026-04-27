@@ -113,7 +113,7 @@ function enviar() {
   mensajes.innerHTML += `<div class="mensaje user">${dui}</div>`;
 
   // Validación formato DUI
-  let regex = /^\\d{8}-\\d$/;
+  let regex = /^\\d{8}-?\\d$/  ;
   if (!regex.test(dui)) {
     mensajes.innerHTML += `<div class="mensaje bot">⚠️ Formato inválido</div>`;
     return;
@@ -142,7 +142,7 @@ function enviar() {
     // limpiar DUI (quita guiones por si acaso)
     let duiLimpio = dui.replace("-", "");
 
-    let encontrado = data.some(item => item.dui === duiLimpio);
+    let encontrado = data.some(item => item.dui === dui);
 
     if (encontrado) {
       mensajes.innerHTML += '<div class="mensaje bot">✅ PROCEDE</div>';
