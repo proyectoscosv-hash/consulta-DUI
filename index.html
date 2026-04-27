@@ -79,10 +79,6 @@ button {
   border-radius: 20px;
   cursor: pointer;
 }
-
-button:hover {
-  background: #0b7d6e;
-}
 </style>
 </head>
 
@@ -110,54 +106,39 @@ function enviar() {
 
   if (dui === "") return;
 
-  mensajes.innerHTML += `<div class="mensaje user">${dui}</div>`;
+  // mostrar lo que escribe el usuario
+  mensajes.innerHTML += '<div class="mensaje user">' + dui + '</div>';
 
-  // Validación formato DUI
-  let regex = /^\\d{8}-?\\d$/  ;
-  if (!regex.test(dui)) {
-    mensajes.innerHTML += `<div class="mensaje bot">⚠️ Formato inválido</div>`;
+  // LIMPIAR DUI (quita guiones y espacios)
+  let duiLimpio = dui.replace(/-/g, "");
+
+  // VALIDACIÓN: solo números y longitud 9
+  if (!/^\d{8,9}$/.test(duiLimpio)) {
+    mensajes.innerHTML += '<div class="mensaje bot">⚠️ Formato inválido</div>';
     return;
   }
 
-  // Mensaje de espera
-  mensajes.innerHTML += `<div class="mensaje bot">⏳ Consultando...</div>`;
+  // mensaje de espera
+  mensajes.innerHTML += '<div class="mensaje bot">⏳ Consultando...</div>';
 
-  mensajes.scrollTop = mensajes.scrollHeight;
-
-  // 🔥 AQUÍ LUEGO CONECTAMOS CON TU API
-  /*
-  fetch("https://tuapi.com/consulta?dui=" + dui)
-    .then(res => res.text())
+  // CONSULTA JSON
+  fetch('data.json')
+    .then(res => res.json())
     .then(data => {
-      mensajes.innerHTML += `<div class="mensaje bot">${data}</div>`;
+
+      let encontrado = data.some(item => item.dui === duiLimpio);
+
+      if (encontrado) {
+        mensajes.innerHTML += '<div class="mensaje bot">✅ PROCEDE</div>';
+      } else {
+        mensajes.innerHTML += '<div class="mensaje bot">❌ NO PROCEDE</div>';
+      }
+
+      mensajes.scrollTop = mensajes.scrollHeight;
+    })
+    .catch(() => {
+      mensajes.innerHTML += '<div class="mensaje bot">Error al consultar</div>';
     });
-  */
-
-  // Simulación temporal
-  setTimeout(() => {
-    fetch('data.json')
-  .then(res => res.json())
-  .then(data => {
-
-    // limpiar DUI (quita guiones por si acaso)
-    let duiLimpio = dui.replace("-", "");
-
-    let encontrado = data.some(item => item.dui === dui);
-
-    if (encontrado) {
-      mensajes.innerHTML += '<div class="mensaje bot">✅ PROCEDE</div>';
-    } else {
-      mensajes.innerHTML += '<div class="mensaje bot">❌ NO PROCEDE</div>';
-    }
-
-    mensajes.scrollTop = mensajes.scrollHeight;
-  })
-  .catch(() => {
-    mensajes.innerHTML += '<div class="mensaje bot">Error al consultar</div>';
-  });
-    mensajes.innerHTML += `<div class="mensaje bot">${respuesta}</div>`;
-    mensajes.scrollTop = mensajes.scrollHeight;
-  }, 1000);
 
   document.getElementById("dui").value = "";
 }
