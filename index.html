@@ -86,7 +86,7 @@ button {
 
 <div id="chatbox">
 
-  <div id="header">Consulta RECOMPRA</div>
+  <div id="header">Consulta cliente VIP</div>
 
   <div id="mensajes">
     <div class="mensaje bot">Hola 👋 Ingresa DUI sin guión para consultar</div>
@@ -123,7 +123,7 @@ function enviar() {
       if (encontrado) {
         mensajes.innerHTML += '<div class="mensaje bot">✅ APLICA RECOMPRA (sujeto análisis)</div>';
       } else {
-        mensajes.innerHTML += '<div class="mensaje bot">❌ No aparece para recompra</div>';
+        mensajes.innerHTML += '<div class="mensaje bot">❌ No aparece como cliente VIP</div>';
       }
 
       mensajes.scrollTop = mensajes.scrollHeight;
