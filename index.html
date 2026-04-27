@@ -177,6 +177,13 @@ function enviar() {
 
   document.getElementById("dui").value = "";
 }
+
+/* 🔥 ENTER PARA ENVIAR */
+document.getElementById("dui").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    enviar();
+  }
+});
 </script>
 
 </body>
