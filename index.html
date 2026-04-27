@@ -8,22 +8,28 @@
 <style>
 body {
   margin: 0;
+  font-family: Arial, sans-serif;
+  background: #e5ddd5;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100dvh;
+  height: 100vh;
 }
 
+/* CONTENEDOR */
 #chatbox {
   width: 100%;
-  max-width: 400px;
-  height: 100dvh;
-  margin: 0 auto;
+  max-width: 420px;
+  height: 90vh;
   background: #fff;
   display: flex;
   flex-direction: column;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
 }
 
+/* HEADER */
 #header {
   background: #075e54;
   color: white;
@@ -32,6 +38,7 @@ body {
   font-weight: bold;
 }
 
+/* MENSAJES */
 #mensajes {
   flex: 1;
   padding: 10px;
@@ -40,6 +47,7 @@ body {
   flex-direction: column;
 }
 
+/* BURBUJAS */
 .mensaje {
   max-width: 75%;
   padding: 10px;
@@ -58,6 +66,7 @@ body {
   align-self: flex-end;
 }
 
+/* INPUT */
 #inputArea {
   display: flex;
   padding: 10px;
@@ -80,6 +89,20 @@ button {
   color: white;
   border-radius: 20px;
   cursor: pointer;
+}
+
+/* 📱 MÓVIL */
+@media (max-width: 600px) {
+  body {
+    align-items: stretch;
+    height: auto;
+  }
+
+  #chatbox {
+    height: 100dvh;
+    max-width: 100%;
+    border-radius: 0;
+  }
 }
 </style>
 </head>
@@ -123,13 +146,13 @@ function enviar() {
 
   if (dui === "") return;
 
-  // Mostrar lo que escribe el usuario
+  // Mostrar usuario
   mensajes.innerHTML += '<div class="mensaje user">' + dui + '</div>';
 
-  // Limpiar DUI (solo números)
+  // Limpiar DUI
   let duiLimpio = dui.replace(/[^0-9]/g, "");
 
-  // Bloquear entradas muy cortas (evita spam o errores)
+  // Validación básica
   if (duiLimpio.length < 7) {
     mensajes.innerHTML += '<div class="mensaje bot">⚠️ Ingresa un DUI válido</div>';
     return;
@@ -138,12 +161,12 @@ function enviar() {
   cargarDatos().then(data => {
 
     if (data[duiLimpio]) {
-      mensajes.innerHTML += '<div class="mensaje bot">✅ Cliente VIP confirmado</div>';
+      mensajes.innerHTML += '<div class="mensaje bot">✅ APLICA RECOMPRA (sujeto análisis)</div>';
     } else {
-      mensajes.innerHTML += '<div class="mensaje bot">❌ Cliente no registrado</div>';
+      mensajes.innerHTML += '<div class="mensaje bot">❌ No aparece como cliente VIP</div>';
     }
 
-    // Scroll suave
+    // Scroll automático
     setTimeout(() => {
       mensajes.scrollTop = mensajes.scrollHeight;
     }, 100);
