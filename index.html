@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consulta DUI</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #e5ddd5;
+}
+
+#chatbox {
+  width: 100%;
+  max-width: 400px;
+  height: 100vh;
+  margin: auto;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+#header {
+  background: #075e54;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+#mensajes {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.mensaje {
+  max-width: 75%;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.bot {
+  background: #f0f0f0;
+  align-self: flex-start;
+}
+
+.user {
+  background: #dcf8c6;
+  align-self: flex-end;
+}
+
+#inputArea {
+  display: flex;
+  padding: 10px;
+  background: #f0f0f0;
+}
+
+#dui {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+}
+
+button {
+  margin-left: 10px;
+  padding: 10px 15px;
+  border: none;
+  background: #075e54;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0b7d6e;
+}
+</style>
+</head>
+
+<body>
+
+<div id="chatbox">
+
+  <div id="header">Consulta de DUI</div>
+
+  <div id="mensajes">
+    <div class="mensaje bot">Hola 👋 Ingresa tu DUI para consultar</div>
+  </div>
+
+  <div id="inputArea">
+    <input type="text" id="dui" placeholder="Ej: 01234567-8">
+    <button onclick="enviar()">Enviar</button>
+  </div>
+
+</div>
+
+<script>
+function enviar() {
+  let dui = document.getElementById("dui").value.trim();
+  let mensajes = document.getElementById("mensajes");
+
+  if (dui === "") return;
+
+  mensajes.innerHTML += `<div class="mensaje user">${dui}</div>`;
+
+  // Validación formato DUI
+  let regex = /^\\d{8}-\\d$/;
+  if (!regex.test(dui)) {
+    mensajes.innerHTML += `<div class="mensaje bot">⚠️ Formato inválido</div>`;
+    return;
+  }
+
+  // Mensaje de espera
+  mensajes.innerHTML += `<div class="mensaje bot">⏳ Consultando...</div>`;
+
+  mensajes.scrollTop = mensajes.scrollHeight;
+
+  // 🔥 AQUÍ LUEGO CONECTAMOS CON TU API
+  /*
+  fetch("https://tuapi.com/consulta?dui=" + dui)
+    .then(res => res.text())
+    .then(data => {
+      mensajes.innerHTML += `<div class="mensaje bot">${data}</div>`;
+    });
+  */
+
+  // Simulación temporal
+  setTimeout(() => {
+    let respuesta = (dui === "12345678-9") ? "✅ PROCEDE" : "❌ NO PROCEDE";
+    mensajes.innerHTML += `<div class="mensaje bot">${respuesta}</div>`;
+    mensajes.scrollTop = mensajes.scrollHeight;
+  }, 1000);
+
+  document.getElementById("dui").value = "";
+}
+</script>
+
+</body>
+</html>
