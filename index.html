@@ -93,7 +93,7 @@ button {
   </div>
 
   <div id="inputArea">
-    <input type="text" id="dui" placeholder="Ej: 046656807">
+    <input type="text" id="dui" placeholder="Ej: 000000000">
     <button onclick="enviar()">Enviar</button>
   </div>
 
@@ -112,8 +112,6 @@ function enviar() {
   // LIMPIAR DUI (solo números)
   let duiLimpio = dui.replace(/[^0-9]/g, "");
 
-  // Mensaje de carga
-  mensajes.innerHTML += '<div class="mensaje bot">⏳ Consultando...</div>';
 
   // Consultar JSON
   fetch('data.json')
