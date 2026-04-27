@@ -93,7 +93,7 @@ button {
   </div>
 
   <div id="inputArea">
-    <input type="text" id="dui" placeholder="Ej: 000000000">
+    <input type="text" id="dui" placeholder="Ej: 046656807">
     <button onclick="enviar()">Enviar</button>
   </div>
 
@@ -127,18 +127,24 @@ function enviar() {
   // Limpiar DUI (solo números)
   let duiLimpio = dui.replace(/[^0-9]/g, "");
 
-  // Consultar JSON
+  // Bloquear entradas muy cortas (evita spam o errores)
+  if (duiLimpio.length < 7) {
+    mensajes.innerHTML += '<div class="mensaje bot">⚠️ Ingresa un DUI válido</div>';
+    return;
+  }
+
   cargarDatos().then(data => {
 
-    let encontrado = data[duiLimpio];
-
-    if (encontrado) {
-      mensajes.innerHTML += '<div class="mensaje bot">✅ APLICA RECOMPRA (sujeto análisis)</div>';
+    if (data[duiLimpio]) {
+      mensajes.innerHTML += '<div class="mensaje bot">✅ Cliente VIP confirmado</div>';
     } else {
-      mensajes.innerHTML += '<div class="mensaje bot">❌ No aparece como cliente VIP</div>';
+      mensajes.innerHTML += '<div class="mensaje bot">❌ Cliente no registrado</div>';
     }
 
-    mensajes.scrollTop = mensajes.scrollHeight;
+    // Scroll suave
+    setTimeout(() => {
+      mensajes.scrollTop = mensajes.scrollHeight;
+    }, 100);
   })
   .catch(() => {
     mensajes.innerHTML += '<div class="mensaje bot">Error al consultar</div>';
